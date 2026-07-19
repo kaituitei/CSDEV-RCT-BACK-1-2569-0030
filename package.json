@@ -1,0 +1,33 @@
+{
+  "name": "csdev-rct-back-1-2569-0030",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+	"dev": "tsx watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaituitei/CSDEV-RCT-BACK-1-2569-0030.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/kaituitei/CSDEV-RCT-BACK-1-2569-0030/issues"
+  },
+  "homepage": "https://github.com/kaituitei/CSDEV-RCT-BACK-1-2569-0030#readme",
+  "dependencies": {
+    "hono": "^4.12.31"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.0.10",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
+}
