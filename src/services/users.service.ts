@@ -17,3 +17,7 @@ export async function createUser(data: { userName: string; passwordHash: string;
 		.returning() // tell db to send back the row(s) that just inserted
 	return (result[0]);
 }
+
+export async function getUser(username: string) {
+	return (postgres.select().from(users).where(eq(users.userName, username)).limit(1));
+}

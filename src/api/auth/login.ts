@@ -1,10 +1,38 @@
 import { text } from 'drizzle-orm/cockroach-core';
 import { Hono } from 'hono'
+import { decode, sign, verify } from 'hono/jwt'
+import { zValidator } from '@hono/zod-validator'
+import { z } from 'zod'
+import { getUser } from '../../services/users.service.js';
+import { compare } from 'bcryptjs'
 
 const login = new Hono()
 
-login.post('/api/auth/login', (c) => {
-	return (c.text(`api login route`));
+const loginSchema = z.object({
+	username: z.string(),
+	password: z.string(),
+})
+
+login.post('/api/auth/login', zValidator('json', loginSchema), async (c) => {
+	const { username, password } = c.req.valid('json');
+
+	const [ user ] = await getUser(username);
+	if (!user)
+		return (c.json({error: 'Invalid credentials'}, 401));
+	
+	const isValid = await compare(password, user.passwordHash);
+	if (!isValid)
+		return (c.json({error: 'Invalid credentials'}, 401));
+
+	const payload = {
+		sub: user.id,
+		username: user.userName,
+		expire: Math.floor(Date.now() / 1000) + 60 * 5,
+	}
+
+	const token = await sign(payload, process.env.JWT_SECRET!);
+
+	return (c.json({ token }));
 });
 
 export default (login);
