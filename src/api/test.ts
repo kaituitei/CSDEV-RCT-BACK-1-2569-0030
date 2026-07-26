@@ -4,6 +4,6 @@ const test = new Hono();
 
 test.get('/', (c) => {
 	return c.text(`Hello from test.`);
-})
+});
 
 export default (test);
