@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/kaituitei/CSDEV-RCT-BACK-1-2569-0030#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-rc.4",
     "hono": "^4.12.31",
