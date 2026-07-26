@@ -15,7 +15,6 @@ register.post('/api/auth/register', zValidator('json', registerSchema), async (c
 	const { username, password } = c.req.valid('json')
 
 	try {
-		console.log(`Enter try`);
 		const existing = await findUsername(username);
 
 		if (existing)
