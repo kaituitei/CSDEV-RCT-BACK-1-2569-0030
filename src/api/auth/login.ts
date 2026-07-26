@@ -1,6 +1,5 @@
-import { text } from 'drizzle-orm/cockroach-core';
 import { Hono } from 'hono'
-import { decode, sign, verify } from 'hono/jwt'
+import { sign } from 'hono/jwt'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 import { getUser } from '../../services/users.service.js';
@@ -18,11 +17,11 @@ login.post('/api/auth/login', zValidator('json', loginSchema), async (c) => {
 
 	const [ user ] = await getUser(username);
 	if (!user)
-		return (c.json({error: 'Invalid credentials'}, 401));
+		return (c.json({ error: 'Invalid credentials' }, 401));
 	
 	const isValid = await compare(password, user.passwordHash);
 	if (!isValid)
-		return (c.json({error: 'Invalid credentials'}, 401));
+		return (c.json({ error: 'Invalid credentials' }, 401));
 
 	const payload = {
 		sub: user.id,
