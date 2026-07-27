@@ -6,7 +6,7 @@ export const relations = defineRelations({ users, notice }, (r) => ({
 	users: {
 		notice: r.one.notice({
 			from: r.users.id,
-			to: r.notice.user_id,
+			to: r.notice.userId,
 		})
 	}
 }));

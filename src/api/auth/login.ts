@@ -10,7 +10,7 @@ const login = new Hono()
 const loginSchema = z.object({
 	username: z.string(),
 	password: z.string(),
-})
+});
 
 login.post('/api/auth/login', zValidator('json', loginSchema), async (c) => {
 	const { username, password } = c.req.valid('json');
@@ -24,7 +24,7 @@ login.post('/api/auth/login', zValidator('json', loginSchema), async (c) => {
 		return (c.json({ error: 'Invalid credentials' }, 401));
 
 	const payload = {
-		sub: user.id,
+		userId: user.id,
 		username: user.userName,
 		expire: Math.floor(Date.now() / 1000) + 60 * 5,
 	}

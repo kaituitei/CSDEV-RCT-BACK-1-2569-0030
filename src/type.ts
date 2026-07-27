@@ -2,7 +2,7 @@ export type ENV = {
 	Variables: {
 		jwtPayload: {
 			userId: string;
-			userName: string;
+			username: string;
 			expire: number;
 		}
 	}
