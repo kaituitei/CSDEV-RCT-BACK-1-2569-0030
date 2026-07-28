@@ -26,7 +26,7 @@ login.post('/api/auth/login', zValidator('json', loginSchema), async (c) => {
 	const payload = {
 		userId: user.id,
 		username: user.userName,
-		expire: Math.floor(Date.now() / 1000) + 60 * 5,
+		expire: Math.floor(Date.now() / 1000) + (60 * 5),
 	}
 
 	const token = await sign(payload, process.env.JWT_SECRET!);
