@@ -1,8 +1,10 @@
 import { zValidator } from '@hono/zod-validator';
 import { success, z } from 'zod'
 import { Hono } from 'hono'
+import { eq, and, or, like, ilike, count, desc } from 'drizzle-orm'
 import type { ENV } from '../../type.js'
-import { createNotice, getNoticeById, uploadImage } from '../../services/notice.service.js';
+import { createNotice, getNoticeByFilter, getNoticeById, uploadImage } from '../../services/notice.service.js';
+import { notice } from '../../db/schema/notice.js';
 
 const items = new Hono<ENV>();
 
@@ -25,6 +27,7 @@ items.post('/api/items', zValidator('form', postScheme), async (c) => {
 		const owner = payload.username;
 
 		const newNotice = await createNotice({
+			title: body.title,
 			userId: userId,
 			type: body.type,
 			description: body.description,

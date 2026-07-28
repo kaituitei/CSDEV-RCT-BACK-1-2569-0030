@@ -8,6 +8,7 @@ export const statusEnum = pgEnum("status", ["OPEN", "CLOSE"])
 export const notice = pgTable("notice", {
 	id: uuid("id").primaryKey().defaultRandom(),
 	userId: uuid("userId").notNull().references(() => users.id, { onDelete: 'cascade' }),
+	title: text("title").notNull(),
 	type: typeEnum("type").notNull(),
 	description: text("description").notNull(),
 	location: text("location").notNull(),
