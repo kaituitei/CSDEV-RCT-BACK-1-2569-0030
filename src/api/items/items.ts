@@ -2,7 +2,7 @@ import { zValidator } from '@hono/zod-validator';
 import { success, z } from 'zod'
 import { Hono } from 'hono'
 import type { ENV } from '../../type.js'
-import { createNotice, uploadImage } from '../../services/notice.service.js';
+import { createNotice, getNoticeById, uploadImage } from '../../services/notice.service.js';
 
 const items = new Hono<ENV>();
 
@@ -44,5 +44,20 @@ items.post('/api/items', zValidator('form', postScheme), async (c) => {
 		return c.json({ success: false, message: errorMessage }, 400);
 	}
 });
+
+items.get('/api/items/:id', async (c) => {
+	try {
+		const id = c.req.param('id');
+
+		const notice = await getNoticeById(id);
+		if (!notice)
+			return (c.json({ success: false, message: 'Not found notice with this ID' }, 201));
+		return (c.json({ success: true, notice}, 200));
+	}
+	catch (error) {
+		console.error(error);
+		return (c.json({ error: 'Internal server fail' }, 500));
+	}
+})
 
 export default (items);
