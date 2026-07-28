@@ -51,12 +51,12 @@ items.get('/api/items/:id', async (c) => {
 
 		const notice = await getNoticeById(id);
 		if (!notice)
-			return (c.json({ success: false, message: 'Not found notice with this ID' }, 201));
-		return (c.json({ success: true, notice}, 200));
+			return (c.json({ "status": "error", "error": 'Not found notice with this ID' }, 201));
+		return (c.json({ "status": "success", "data": notice }, 200));
 	}
 	catch (error) {
 		console.error(error);
-		return (c.json({ error: 'Internal server fail' }, 500));
+		return (c.json({ "status": "error", "error": "Internal server fail" }, 500));
 	}
 })
 
