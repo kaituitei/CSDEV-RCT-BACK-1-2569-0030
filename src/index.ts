@@ -14,8 +14,36 @@ import updateItem from './api/items/items.update.js'
 import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
 import getMeItem from './api/items/items.getMeItem.js'
 import { HTTPException } from 'hono/http-exception'
+import { swaggerUI } from '@hono/swagger-ui'
 
 const app = new Hono<ENV>();
+
+const openApiDoc = {
+	openapi: '3.0.0', // This is the required version field
+	info: {
+		title: 'API Documentation',
+		version: '1.0.0',
+		description: 'API documentation for your service',
+	},
+	paths: {
+		'/api/auth/login': {
+			post: {
+				summary: 'login',
+				responses: {
+					'200': {
+						description: 'OK',
+					},
+				},
+			},
+		},
+		'/api/auth/register': {
+			post: {
+
+			},
+		},
+		'api/items'
+	},
+}
 
 app.onError((err, c) => {
 	if (err instanceof HTTPException)
@@ -54,6 +82,10 @@ itemRoute.route('/', updateItem);
 app.route('/api/items', itemRoute);
 
 app.route('/api/user/@me/items', getMeItem);
+
+app.get('/doc', (c) => c.json(openApiDoc))
+
+app.get('/ui', swaggerUI({ url: '/doc' }));
 
 serve(app, (info) => (console.log(`Server running on http://localhost:${info.port}`)))
 

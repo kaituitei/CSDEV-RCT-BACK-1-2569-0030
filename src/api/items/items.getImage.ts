@@ -11,7 +11,7 @@ getImage.get('/:id/image', async (c) => {
 
 	const imageUrl = await getImageById(id);
 	if (imageUrl)
-		return (c.json({ image_url: imageUrl }, 500));
+		return (c.json({ image_url: imageUrl }, 200));
 	return (c.json({ error: "This post didn't have an image"}, 201))
 });
 
