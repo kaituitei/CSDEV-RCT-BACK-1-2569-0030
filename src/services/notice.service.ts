@@ -5,6 +5,11 @@ import { sql, eq, and, count, desc } from 'drizzle-orm';
 
 export type noticeTable = InferInsertModel<typeof notice>;
 
+export async function itemExit(id: string) {
+	const result = await postgres.select().from(notice).where(eq(notice.id, id));
+	return (result[0]);
+}
+
 export async function createNotice(data: noticeTable) {
 	const [newNotice] = await postgres
 		.insert(notice)
@@ -67,4 +72,9 @@ export async function getNoticeByFilter(
 	const total = totalResult[0]?.total ?? 0
 
 	return { data, total }
+}
+
+export async function getImageById(id: string) {
+	const imageUrl =  await postgres.select().from(notice).where(eq(notice.id, id)).limit(1);
+	return (imageUrl[0]);
 }

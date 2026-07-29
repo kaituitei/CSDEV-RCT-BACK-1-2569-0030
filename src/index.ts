@@ -8,6 +8,7 @@ import register from  "./api/auth/register.js"
 import postItem from "./api/items/items.post.js"
 import getById from './api/items/items.getId.js'
 import getItem from './api/items/items.get.js'
+import getImage from './api/items/items.getImage.js'
 import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
 
 const app = new Hono<ENV>();
@@ -35,6 +36,7 @@ const itemRoute = new Hono<ENV>();
 itemRoute.route('/', getItem);
 itemRoute.route('/', getById);
 itemRoute.route('/', postItem);
+itemRoute.route('/', getImage);
 
 app.route('/api/items', itemRoute);
 
