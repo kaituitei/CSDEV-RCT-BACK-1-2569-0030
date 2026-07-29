@@ -1,5 +1,5 @@
 import { uuid, pgTable, text, pgEnum, date } from "drizzle-orm/pg-core";
-import { users } from "../schema/users.js"
+import { users } from "./users.js"
 import { timestamp } from "drizzle-orm/cockroach-core";
 
 export const typeEnum = pgEnum("type", ["LOST", "FOUND"]);

@@ -56,3 +56,5 @@ app.route('/api/items', itemRoute);
 app.route('/api/user/@me/items', getMeItem);
 
 serve(app, (info) => (console.log(`Server running on http://localhost:${info.port}`)))
+
+export default (app);
