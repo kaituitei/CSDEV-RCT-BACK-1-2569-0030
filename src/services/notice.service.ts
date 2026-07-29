@@ -8,7 +8,7 @@ export type noticeTable = InferInsertModel<typeof notice>;
 export async function itemExit(id: string) {
 	const result = await postgres.select().from(notice).where(eq(notice.id, id));
 	return (result[0]);
-}
+};
 
 export async function createNotice(data: noticeTable) {
 	const [newNotice] = await postgres
@@ -17,6 +17,11 @@ export async function createNotice(data: noticeTable) {
 		.returning();
 
 	return (newNotice);
+};
+
+export async function deleteNotice(id: string) {
+	const result = await postgres.delete(notice).where(eq(notice.id, id));
+	return (result);
 };
 
 export async function uploadImage(file?: File): Promise<string | undefined> {
