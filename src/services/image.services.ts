@@ -27,7 +27,7 @@ export async function uploadImage(file?: File): Promise<string | undefined> {
 			ContentType: file.type,
 		})
 	);
-	const imageUrl = `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`;
+	const imageUrl = `http://${BUCKET_NAME}.s3.${process.env.AWS_REGION}/${key}`;
 
 	return (imageUrl);
 };
