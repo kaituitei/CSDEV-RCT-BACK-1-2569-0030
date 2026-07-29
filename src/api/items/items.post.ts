@@ -36,7 +36,7 @@ postItem.post('/api/items', zValidator('form', postScheme), async (c) => {
 			owner: owner,
 		});
 
-		return (c.json({ success: true, data: newNotice }, 201));
+		return (c.json({ data: newNotice }, 201));
 	}
 	catch (error) {
 		console.error("Notice creation error:", error);
