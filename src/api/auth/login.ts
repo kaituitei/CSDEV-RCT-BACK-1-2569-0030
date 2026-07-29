@@ -12,7 +12,7 @@ const loginSchema = z.object({
 	password: z.string(),
 });
 
-login.post('/api/auth/login', zValidator('json', loginSchema), async (c) => {
+login.post('/', zValidator('json', loginSchema), async (c) => {
 	const { username, password } = c.req.valid('json');
 
 	const [ user ] = await getUser(username);

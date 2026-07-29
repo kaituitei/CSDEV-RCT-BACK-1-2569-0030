@@ -5,7 +5,9 @@ import type { ENV } from './type.js'
 import test from "./api/test.js"
 import login from "./api/auth/login.js"
 import register from  "./api/auth/register.js"
-import items from "./api/items/items.js"
+import postItem from "./api/items/items.post.js"
+import getById from './api/items/items.getId.js'
+import getItem from './api/items/items.get.js'
 import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
 
 const app = new Hono<ENV>();
@@ -23,9 +25,17 @@ app
 
 app.route('/api/test', test);
 
-app.route('/', login);
-app.route('/', register);
+const authRoute = new Hono();
+authRoute.route('/login', login);
+authRoute.route('/register', register);
 
-app.route('/', items);
+app.route('/api/auth', authRoute);
+
+const itemRoute = new Hono<ENV>();
+itemRoute.route('/', getItem);
+itemRoute.route('/', getById);
+itemRoute.route('/', postItem);
+
+app.route('/api/items', itemRoute);
 
 serve(app, (info) => (console.log(`Server running on http://localhost:${info.port}`)))

@@ -11,7 +11,7 @@ const registerSchema = z.object({
 	password: z.string().min(8),
 })
 
-register.post('/api/auth/register', zValidator('json', registerSchema), async (c) => {
+register.post('/', zValidator('json', registerSchema), async (c) => {
 	const { username, password } = c.req.valid('json')
 
 	try {
