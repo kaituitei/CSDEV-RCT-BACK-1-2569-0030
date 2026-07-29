@@ -17,8 +17,7 @@ const postScheme = z.object({
 	image: z.instanceof(File).optional(),
 });
 
-postItem.post('/api/items', zValidator('form', postScheme), async (c) => {
-	console.log('api route correctly')
+postItem.post('/', zValidator('form', postScheme), async (c) => {
 	try {
 		const payload = c.get('jwtPayload');
 		const body = c.req.valid('form');
