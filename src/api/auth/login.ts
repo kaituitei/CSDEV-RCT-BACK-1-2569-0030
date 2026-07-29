@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { sign } from 'hono/jwt'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { getUser } from '../../services/users.service.js';
+import { getUser } from '../../services/users.services.js';
 import { compare } from 'bcryptjs'
 
 const login = new Hono()

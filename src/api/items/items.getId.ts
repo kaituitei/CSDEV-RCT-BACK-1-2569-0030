@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { itemExit, getNoticeById } from "../../services/notice.service.js";
+import { itemExit, getNoticeById } from "../../services/notice.services.js";
 
 const getById = new Hono();
 

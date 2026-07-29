@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { itemExit } from "../services/notice.service.js";
+import { itemExit } from "../services/notice.services.js";
 
 export const authCheck = createMiddleware(async (c, next) => {
 	const payload = c.get('jwtPayload');

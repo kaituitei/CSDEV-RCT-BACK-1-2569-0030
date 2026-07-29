@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 import bcrypt from 'bcryptjs'
-import { findUsername, createUser } from '../../services/users.service.js'
+import { findUsername, createUser } from '../../services/users.services.js'
 
 const register = new Hono()
 

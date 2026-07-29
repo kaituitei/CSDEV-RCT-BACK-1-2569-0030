@@ -2,7 +2,8 @@ import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod'
 import { Hono } from 'hono'
 import type { ENV } from '../../type.js'
-import { createNotice, uploadImage } from '../../services/notice.service.js';
+import { createNotice } from '../../services/notice.services.js';
+import { uploadImage } from '../../services/image.services.js';
 import { ERR_PARMS } from '../../constants.js'
 
 const postItem = new Hono<ENV>();
@@ -17,6 +18,7 @@ const postScheme = z.object({
 });
 
 postItem.post('/api/items', zValidator('form', postScheme), async (c) => {
+	console.log('api route correctly')
 	try {
 		const payload = c.get('jwtPayload');
 		const body = c.req.valid('form');
@@ -41,12 +43,9 @@ postItem.post('/api/items', zValidator('form', postScheme), async (c) => {
 	catch (error) {
 		console.error("Notice creation error:", error);
 
-		// Catch validation or upload errors gracefully
 		const errorMessage = error instanceof Error ? error.message : "Failed to create notice";
 		return c.json({ success: false, message: errorMessage }, 400);
 	}
 });
-
-
 
 export default (postItem);

@@ -10,12 +10,16 @@ import getById from './api/items/items.getId.js'
 import getItem from './api/items/items.get.js'
 import getImage from './api/items/items.getImage.js'
 import deleteItem from './api/items/items.delete.js'
+import updateItem from './api/items/items.update.js'
 import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
 import getMeItem from './api/items/items.getMeItem.js'
+import { HTTPException } from 'hono/http-exception'
 
 const app = new Hono<ENV>();
 
 app.onError((err, c) => {
+	if (err instanceof HTTPException)
+		return (c.json({ error: err.message, status: err.status}, err.status));
 	console.error(err);
 	return c.json({ error: "Internal server error" }, 500);
 });
@@ -45,6 +49,7 @@ itemRoute.route('/', getById);
 itemRoute.route('/', postItem);
 itemRoute.route('/', getImage);
 itemRoute.route('/', deleteItem);
+itemRoute.route('/', updateItem);
 
 app.route('/api/items', itemRoute);
 

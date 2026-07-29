@@ -3,14 +3,15 @@ import { type InferInsertModel } from 'drizzle-orm'
 import { notice } from '../db/schema/notice.js'
 import { sql, eq, and, count, desc } from 'drizzle-orm';
 
-export type noticeTable = InferInsertModel<typeof notice>;
+export type newTable = InferInsertModel<typeof notice>;
+export type updateTable = Partial<typeof notice.$inferInsert>
 
 export async function itemExit(id: string) {
 	const result = await postgres.select().from(notice).where(eq(notice.id, id));
 	return (result[0]);
 };
 
-export async function createNotice(data: noticeTable) {
+export async function createNotice(data: newTable) {
 	const [newNotice] = await postgres
 		.insert(notice)
 		.values(data)
@@ -24,22 +25,17 @@ export async function deleteNotice(id: string) {
 	return (result);
 };
 
-export async function uploadImage(file?: File): Promise<string | undefined> {
-	if (!file)
-		return (undefined);
+export async function updateNotice(id: string, updateData: updateTable) {
+	if (Object.keys(updateData).length === 0)
+		throw new Error (`No fields to update`);
 
-	const maxSize = 1024 * 1024 * 5; // 5 MB
-	if (file.size > maxSize)
-		throw new Error("File size exceed 5 MB");
+	const result = await postgres
+		.update(notice)
+		.set(updateData)
+		.where(eq(notice.id, id))
+		.returning()
 
-	const allowType = ['image/jpeg', 'image/png', 'image/webp'];
-	if (!allowType.includes(file.type))
-		throw new Error("File type invalid. Only jpeg, png, and webp are allowed");
-
-	// upload file to S3 bucket
-
-	const imageUrl = undefined;
-	return (imageUrl);
+	return (result[0]);
 };
 
 export async function getNoticeById(id: string) {
@@ -81,7 +77,7 @@ export async function getNoticeByFilter(
 
 export async function getImageById(id: string) {
 	const imageUrl =  await postgres.select().from(notice).where(eq(notice.id, id)).limit(1);
-	return (imageUrl[0]);
+	return (imageUrl[0]?.image);
 };
 
 export async function getUserNotice(userId: string) {
