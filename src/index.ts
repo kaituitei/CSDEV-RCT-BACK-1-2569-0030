@@ -9,10 +9,16 @@ import postItem from "./api/items/items.post.js"
 import getById from './api/items/items.getId.js'
 import getItem from './api/items/items.get.js'
 import getImage from './api/items/items.getImage.js'
+import deleteItem from './api/items/items.delete.js'
 import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
 import getMeItem from './api/items/items.getMeItem.js'
 
 const app = new Hono<ENV>();
+
+app.onError((err, c) => {
+	console.error(err);
+	return c.json({ error: "Internal server error" }, 500);
+});
 
 app.get('/', (c) => {
 	return c.text('Hello Hono!');
@@ -38,6 +44,7 @@ itemRoute.route('/', getItem);
 itemRoute.route('/', getById);
 itemRoute.route('/', postItem);
 itemRoute.route('/', getImage);
+itemRoute.route('/', deleteItem);
 
 app.route('/api/items', itemRoute);
 
