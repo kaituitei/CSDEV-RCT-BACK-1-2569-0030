@@ -72,9 +72,14 @@ export async function getNoticeByFilter(
 	const total = totalResult[0]?.total ?? 0
 
 	return { data, total }
-}
+};
 
 export async function getImageById(id: string) {
 	const imageUrl =  await postgres.select().from(notice).where(eq(notice.id, id)).limit(1);
 	return (imageUrl[0]);
+};
+
+export async function getUserNotice(userId: string) {
+	const noticeList = await postgres.select({ title: notice.title, id: notice.id }).from(notice).where(eq(notice.userId, userId))
+	return (noticeList);
 }

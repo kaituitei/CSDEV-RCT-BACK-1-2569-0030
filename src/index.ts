@@ -10,6 +10,7 @@ import getById from './api/items/items.getId.js'
 import getItem from './api/items/items.get.js'
 import getImage from './api/items/items.getImage.js'
 import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
+import getMeItem from './api/items/items.getMeItem.js'
 
 const app = new Hono<ENV>();
 
@@ -39,5 +40,7 @@ itemRoute.route('/', postItem);
 itemRoute.route('/', getImage);
 
 app.route('/api/items', itemRoute);
+
+app.route('/api/user/@me/items', getMeItem);
 
 serve(app, (info) => (console.log(`Server running on http://localhost:${info.port}`)))
