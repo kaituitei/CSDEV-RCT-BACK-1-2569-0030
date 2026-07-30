@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import type { ENV } from "../../../type.js";
-import { getUserNotice } from "../../../services/notice.services.js";
+import type { ENV } from "../../type.js";
+import { getUserNotice } from "../../services/notice.services.js";
 
 const getMeItem = new Hono<ENV>();
 

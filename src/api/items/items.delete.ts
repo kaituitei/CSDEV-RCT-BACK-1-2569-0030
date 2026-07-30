@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { authCheck } from "../../../middleware/authCheck.js";
-import { deleteNotice } from "../../../services/notice.services.js";
+import { authCheck } from "../../middleware/authCheck.js";
+import { deleteNotice } from "../../services/notice.services.js";
 
 const deleteItem = new Hono();
 

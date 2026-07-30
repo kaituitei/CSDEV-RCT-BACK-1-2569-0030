@@ -1,5 +1,5 @@
 import { HTTPException } from "hono/http-exception";
-import { createMiddleware } from "hono/factory";A
+import { createMiddleware } from "hono/factory";
 import type { ENV } from "../type.js";
 
 export const jwtExpireCheck = createMiddleware<ENV>(async (c, next) => {

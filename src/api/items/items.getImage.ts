@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { itemExit, getImageById } from "../../../services/notice.services.js";
+import { itemExit, getImageById } from "../../services/notice.services.js";
 
 const getImage = new Hono();
 
