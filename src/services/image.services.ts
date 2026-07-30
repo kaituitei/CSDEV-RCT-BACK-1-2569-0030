@@ -24,15 +24,3 @@ export async function uploadImage(file?: File): Promise<{imageUrl: string; cid: 
 export async function deleteImage(imageId: string): Promise<void> {
 	await pinata.files.public.delete([imageId]);
 };
-
-async function testConnection() {
-	console.log(process.env.PINATA_JWT)
-	try {
-		const result = await pinata.files.public.list();
-		console.log("Connected to Pinata successfully:", result);
-	} catch (error) {
-		console.error("Failed to connect to Pinata:", error);
-	}
-}
-
-testConnection();
