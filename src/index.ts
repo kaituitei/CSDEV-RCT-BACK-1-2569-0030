@@ -73,7 +73,7 @@ app.get("/health/pinata", async (c) => {
 		await pinata.files.public.list();
 		return c.json({ status: "ok", pinata: "connected" });
 	} catch (error) {
-		return c.json({ status: "error", pinata: "failed", message: String(error) }, 500);
+		return c.json({ status: "error", pinata: "failed", jwtStatus: String(process.env.PINATA_JWT), message: String(error) }, 500);
 	}
 });
 
