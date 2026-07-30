@@ -87,6 +87,6 @@ export async function getImageById(id: string) {
 };
 
 export async function getUserNotice(userId: string) {
-	const noticeList = await postgres.select({ title: notice.title, id: notice.id }).from(notice).where(eq(notice.userId, userId))
+	const noticeList = await postgres.select().from(notice).where(eq(notice.userId, userId))
 	return (noticeList);
 }
