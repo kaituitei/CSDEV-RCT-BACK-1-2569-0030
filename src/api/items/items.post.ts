@@ -22,7 +22,7 @@ postItem.post('/', zValidator('form', postScheme), async (c) => {
 		const payload = c.get('jwtPayload');
 		const body = c.req.valid('form');
 
-		const imageUrl = await uploadImage(body.image);
+		const image = await uploadImage(body.image);
 		const userId = payload.userId;
 		const owner = payload.username;
 
@@ -33,7 +33,8 @@ postItem.post('/', zValidator('form', postScheme), async (c) => {
 			description: body.description,
 			location: body.location,
 			evenDate: body.evenDate,
-			image: imageUrl,
+			imageUrl: image?.imageUrl,
+			imageId: image?.cid,
 			owner: owner,
 		});
 

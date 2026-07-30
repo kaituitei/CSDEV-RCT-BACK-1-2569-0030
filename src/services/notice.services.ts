@@ -2,6 +2,7 @@ import { postgres } from '../db/index.js'
 import { type InferInsertModel } from 'drizzle-orm'
 import { notice } from '../db/schema/notice.js'
 import { sql, eq, and, count, desc } from 'drizzle-orm';
+import { deleteImage } from './image.services.js';
 
 export type newTable = InferInsertModel<typeof notice>;
 export type updateTable = Partial<typeof notice.$inferInsert>
@@ -21,7 +22,12 @@ export async function createNotice(data: newTable) {
 };
 
 export async function deleteNotice(id: string) {
+	const image = await getImageById(id);
+	if (image?.imageId)
+		await deleteImage(image.imageId);
+
 	const result = await postgres.delete(notice).where(eq(notice.id, id));
+
 	return (result);
 };
 
@@ -76,8 +82,8 @@ export async function getNoticeByFilter(
 };
 
 export async function getImageById(id: string) {
-	const imageUrl =  await postgres.select().from(notice).where(eq(notice.id, id)).limit(1);
-	return (imageUrl[0]?.image);
+	const image =  await postgres.select().from(notice).where(eq(notice.id, id)).limit(1);
+	return ({ imageUrl: image[0]?.imageUrl, imageId: image[0]?.imageId });
 };
 
 export async function getUserNotice(userId: string) {

@@ -1,9 +1,9 @@
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3"
-import { s3, BUCKET_NAME } from "../db/s3/s3.js"
+import { pinata } from "../db/lb/pinata.js";
 import { randomUUID } from 'crypto'
 import { url } from "inspector";
 
-export async function uploadImage(file?: File): Promise<string | undefined> {
+export async function uploadImage(file?: File): Promise<{imageUrl: string; cid: string} | undefined> {
 	if (!(file instanceof File))
 		return (undefined);
 
@@ -15,31 +15,24 @@ export async function uploadImage(file?: File): Promise<string | undefined> {
 	if (!allowType.includes(file.type))
 		throw new Error("File type invalid. Only jpeg, png, and webp are allowed");
 
-	// upload file to S3 bucket
-	const buffer = Buffer.from(await file.arrayBuffer());
-	const key = `uploads/${randomUUID()}-${file.name}`;
-
-	await s3.send(
-		new PutObjectCommand({
-			Bucket: BUCKET_NAME,
-			Key: key,
-			Body: buffer,
-			ContentType: file.type,
-		})
-	);
-	const imageUrl = `http://${BUCKET_NAME}.s3.${process.env.AWS_REGION}/${key}`;
-
-	return (imageUrl);
+	// upload file to pinata
+	const upload = await pinata.upload.public.file(file);
+	const imageUrl = `https://${process.env.PINATA_GATEWAY}/ipfs/${upload.cid}`;
+	return ({ imageUrl: imageUrl, cid: upload.cid });
 };
 
-export async function deleteImage(imageUrl: string) {
-	const url = new URL(imageUrl);
-	const key = url.pathname.slice(1);
-
-	await s3.send(
-		new DeleteObjectCommand({
-			Bucket: BUCKET_NAME,
-			Key: key,
-		})
-	);
+export async function deleteImage(imageId: string): Promise<void> {
+	await pinata.files.public.delete([imageId]);
 };
+
+async function testConnection() {
+	console.log(process.env.PINATA_JWT)
+	try {
+		const result = await pinata.files.public.list();
+		console.log("Connected to Pinata successfully:", result);
+	} catch (error) {
+		console.error("Failed to connect to Pinata:", error);
+	}
+}
+
+testConnection();

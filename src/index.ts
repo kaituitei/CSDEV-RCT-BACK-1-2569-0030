@@ -16,6 +16,7 @@ import getMeItem from './api/items/items.getMeItem.js'
 import { HTTPException } from 'hono/http-exception'
 import openApiDoc from './doc.js'
 import { swaggerUI } from '@hono/swagger-ui'
+import { pinata } from './db/lb/pinata.js'
 
 export const config = { runtime: 'nodejs' };
 
@@ -64,5 +65,16 @@ app.get('/doc', (c) => c.json(openApiDoc))
 app.get('/ui', swaggerUI({ url: '/doc' }));
 
 serve(app, (info) => (console.log(`Server running on http://localhost:${info.port}`)))
+
+
+// health check pinata
+app.get("/health/pinata", async (c) => {
+	try {
+		await pinata.files.public.list();
+		return c.json({ status: "ok", pinata: "connected" });
+	} catch (error) {
+		return c.json({ status: "error", pinata: "failed", message: String(error) }, 500);
+	}
+});
 
 export default (app);

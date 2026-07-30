@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { authCheck } from "../../middleware/authCheck.js";
 import { z } from 'zod'
-import type { ENV } from "../../type.js";
 import { ERR_PARMS } from "../../constants.js";
 import { getImageById, updateNotice } from "../../services/notice.services.js";
 import { uploadImage } from "../../services/image.services.js";
@@ -24,19 +23,20 @@ updateItem.patch('/:id', authCheck, zValidator('form', updateScheme), async (c) 
 	try {
 		const body = c.req.valid('form');
 		const id = c.req.param('id');
-		const imageUrl = await uploadImage(body.image);
+		const image = await uploadImage(body.image);
 		
 		const updateData = Object.fromEntries(
 			Object.entries(body).filter(([, value]) => value !== undefined)
 		) as Partial<typeof notice.$inferInsert>; // strip out undefined value
 
 		// Delete old image if it exit
-		if (imageUrl !== undefined)
+		if (image !== undefined)
 		{
-			const oldImageUrl = await getImageById(id);
-			if (oldImageUrl)
-				deleteImage(oldImageUrl);
-			updateData.image = imageUrl;
+			const oldImage = await getImageById(id);
+			if (oldImage?.imageId)
+				await deleteImage(oldImage.imageId);
+			updateData.imageUrl = image.imageUrl;
+			updateData.imageId = image.cid;
 		}
 
 		return (c.json({updateRow: await updateNotice(id, updateData)}, 200));
