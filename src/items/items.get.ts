@@ -2,9 +2,9 @@ import { Hono } from "hono";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { ilike, eq, or, and } from "drizzle-orm";
-import { notice } from "../../db/schema/notice.js";
-import { CONFIG, ERR_PARMS } from "../../constants.js";
-import { getNoticeByFilter } from "../../services/notice.services.js";
+import { notice } from "../db/schema/notice.js";
+import { CONFIG, ERR_PARMS } from "../constants.js";
+import { getNoticeByFilter } from "../services/notice.services.js";
 
 const getItem = new Hono();
 

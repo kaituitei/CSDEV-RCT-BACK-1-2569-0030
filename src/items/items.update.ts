@@ -1,13 +1,13 @@
 import { Hono } from "hono";
-import { authCheck } from "../../middleware/authCheck.js";
+import { authCheck } from "../middleware/authCheck.js";
 import { z } from 'zod'
-import type { ENV } from "../../type.js";
-import { ERR_PARMS } from "../../constants.js";
-import { getImageById, updateNotice } from "../../services/notice.services.js";
-import { uploadImage } from "../../services/image.services.js";
+import type { ENV } from "../type.js";
+import { ERR_PARMS } from "../constants.js";
+import { getImageById, updateNotice } from "../services/notice.services.js";
+import { uploadImage } from "../services/image.services.js";
 import { zValidator } from "@hono/zod-validator";
-import { notice } from "../../db/schema/notice.js";
-import { deleteImage } from "../../services/image.services.js";
+import { notice } from "../db/schema/notice.js";
+import { deleteImage } from "../services/image.services.js";
 
 const updateItem = new Hono();
 

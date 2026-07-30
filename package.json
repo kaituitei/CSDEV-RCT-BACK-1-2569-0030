@@ -8,8 +8,7 @@
 	},
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "esbuild src/index.ts --bundle --platform=node --target=node18 --external:fs --external:path --outdir=api"
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
