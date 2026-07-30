@@ -1,7 +1,7 @@
 import { defineConfig } from "drizzle-kit";
-import { config } from "dotenv";
+// import { config } from "dotenv";
 
-config({ path: '.env.local' })
+// config({ path: '.env.local' })
 
 export default defineConfig({
 	out: './migrations',
