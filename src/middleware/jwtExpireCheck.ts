@@ -1,7 +1,8 @@
 import { HTTPException } from "hono/http-exception";
-import { createMiddleware } from "hono/factory";
+import { createMiddleware } from "hono/factory";A
+import type { ENV } from "../type.js";
 
-export const jwtExpireCheck = createMiddleware(async (c, next) => {
+export const jwtExpireCheck = createMiddleware<ENV>(async (c, next) => {
 	const payload = c.get('jwtPayload');
 	const currrentTime = Math.floor(Date.now() / 1000);
 

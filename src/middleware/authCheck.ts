@@ -1,8 +1,9 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { itemExit } from "../services/notice.services.js";
+import type { ENV } from "../type.js";
 
-export const authCheck = createMiddleware(async (c, next) => {
+export const authCheck = createMiddleware<ENV>(async (c, next) => {
 	const payload = c.get('jwtPayload');
 	const id = c.req.param('id');
 

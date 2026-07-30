@@ -1,20 +1,20 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
-import type { ENV } from '../src/type.js'
+import type { ENV } from './type.js'
 import test from "./test.js"
-import login from "../src/auth/login.js"
-import register from  "../src/auth/register.js"
-import postItem from "../src/items/items.post.js"
-import getById from '../src/items/items.getId.js'
-import getItem from '../src/items/items.get.js'
-import getImage from '../src/items/items.getImage.js'
-import deleteItem from '../src/items/items.delete.js'
-import updateItem from '../src/items/items.update.js'
-import { jwtExpireCheck } from '../src/middleware/jwtExpireCheck.js'
-import getMeItem from '../src/items/items.getMeItem.js'
+import login from "./api/auth/login.js"
+import register from  "./api/auth/register.js"
+import postItem from "./api/items/items.post.js"
+import getById from './api/items/items.getId.js'
+import getItem from './api/items/items.get.js'
+import getImage from './api/items/items.getImage.js'
+import deleteItem from './api/items/items.delete.js'
+import updateItem from './api/items/items.update.js'
+import { jwtExpireCheck } from './middleware/jwtExpireCheck.js'
+import getMeItem from './api/items/items.getMeItem.js'
 import { HTTPException } from 'hono/http-exception'
-import openApiDoc from '../src/doc.js'
+import openApiDoc from './doc.js'
 import { swaggerUI } from '@hono/swagger-ui'
 
 export const config = { runtime: 'nodejs' };

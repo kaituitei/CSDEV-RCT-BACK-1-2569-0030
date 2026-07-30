@@ -7,7 +7,7 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"dev": "tsx watch api/index.js",
+		"dev": "tsx watch src/index.ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -44,6 +44,6 @@
 		"drizzle-kit": "^1.0.0-rc.4",
 		"esbuild": "^0.28.1",
 		"tsx": "^4.23.1",
-		"typescript": "^7.0.2"
+		"typescript": "5.5"
 	}
 }
