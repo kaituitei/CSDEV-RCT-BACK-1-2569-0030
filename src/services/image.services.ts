@@ -7,7 +7,7 @@ export async function uploadImage(file?: File): Promise<{imageUrl: string; cid: 
 	if (!(file instanceof File))
 		return (undefined);
 
-	const maxSize = 1024 * 1024 * 5; // 5 MB
+	const maxSize = 1024 * 1024 * 4; // 4 MB
 	if (file.size > maxSize)
 		throw new Error("File size exceed 5 MB");
 
